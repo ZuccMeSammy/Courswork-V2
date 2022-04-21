@@ -60,3 +60,6 @@ TagManager:
   - name: Door
     uniqueID: 3515853869
     locked: 0
+  - name: Interactable
+    uniqueID: 528896981
+    locked: 0

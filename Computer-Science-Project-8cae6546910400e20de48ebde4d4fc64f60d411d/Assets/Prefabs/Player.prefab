@@ -272,13 +272,14 @@ MonoBehaviour:
   enemyLayers:
     serializedVersion: 2
     m_Bits: 64
-  attackRange: 0.7
-  attackDamage: 20
-  attackRate: 2
   animator: {fileID: 4156918566917941006}
   damageFunction: {fileID: 0}
-  DieFunction: {fileID: 0}
   maxHealth: 100
+  bulletPrefab: {fileID: 0}
+  bulletSpeed: 0
+  fireDelay: 0
+  crosshair: {fileID: 0}
+  endOfAiming: 0
 --- !u!1 &4156918567376990285
 GameObject:
   m_ObjectHideFlags: 0
