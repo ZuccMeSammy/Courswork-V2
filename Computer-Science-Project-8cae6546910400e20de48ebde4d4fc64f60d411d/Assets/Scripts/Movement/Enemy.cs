@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Fighter
 {
     public int maxHealth = 100;
     private int currentHealth;
@@ -60,13 +60,14 @@ public class Enemy : MonoBehaviour
 
         if(currentHealth <= 0)
         {
-            Death(); //die function called when health reaches zero
+            Die(); //die function called when health reaches zero
         }
     }
-    public void Death()
+    public void Die()
     {
         Debug.Log("Enemy Died"); //Placeholder until animations are finished
         animator.SetBool("IsDead", true);
+        Destroy(gameObject);
 
         GetComponent<Collider2D>().enabled = false; //Stops the player from colliding with the enemy's corpse
         this.enabled = false; //disables the script

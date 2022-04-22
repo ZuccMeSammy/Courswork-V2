@@ -36,7 +36,17 @@ public class Weapon : Collidable
 
     protected override void OnCollide(Collider2D coll)
     {
-        Debug.Log(coll.name);
+        if (coll.tag == "Enemy")
+        {
+            Damage dmg = new Damage
+            {
+                damageAmount = damagePoint,
+                origin = transform.position,
+                pushForce = pushForce
+            };
+
+            coll.SendMessage("RecieveDamage", dmg);
+        }
     }
 
     private void Swing()

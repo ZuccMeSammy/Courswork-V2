@@ -11,22 +11,16 @@ public enum EnemyState
     Die
 };
 
-public class EnemyAi : MonoBehaviour
+public class EnemyAi : Fighter
 {
+    // Logic
     GameObject player;
-
     public EnemyState currState = EnemyState.Wander;
-
     public float range;
-
     public float speed;
-
     private bool chooseDir = false;
-
     private bool dead = false;
-
     private Vector3 randomDir;
-
     public Enemy callback;
 
     private void Start()
@@ -108,14 +102,12 @@ public class EnemyAi : MonoBehaviour
 
     void Follow()
     {
-
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
-
     }
 
     public void Die()
     {
-        callback.Death();
+        callback.Die();
         Destroy(gameObject);
         dead = true;
     }
