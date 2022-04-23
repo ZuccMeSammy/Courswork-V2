@@ -9,8 +9,12 @@ public class EnemyHitbox : Collidable
 
     protected override void OnCollide(Collider2D coll)
     {
-        if (coll.tag == "Enemy" && coll.name == "Player")
+        if (coll.tag == "Player" && coll.name == "Player")
         {
+            // giving enemies random knockback and damage
+            damage = Random.Range(1, 5);
+            pushForce = Random.Range(.1f, 1.5f);
+
             Damage dmg = new Damage
             {
                 damageAmount = damage,

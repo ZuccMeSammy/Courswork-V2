@@ -4348,7 +4348,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 428bcae8b02463c47ba2b8b92c915fa0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 0}
+  grid: {fileID: 2117656335}
+  spawnerData:
+  - name: ChaseEnemy
+    spawnerData: {fileID: 11400000, guid: db30b2dae3c8f634c93b2440bd4362a8, type: 2}
+  - name: RandomItemSpawner
+    spawnerData: {fileID: 11400000, guid: 42dde5948eda73845aef3a57f6891e41, type: 2}
 --- !u!61 &1452587578
 BoxCollider2D:
   m_ObjectHideFlags: 0

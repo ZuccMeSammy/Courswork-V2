@@ -4,6 +4,8 @@ using UnityEngine;
 
 public enum EnemyState
 {
+    Idle,
+
     Wander,
 
     Follow,
@@ -15,13 +17,16 @@ public class EnemyAi : Fighter
 {
     // Logic
     GameObject player;
-    public EnemyState currState = EnemyState.Wander;
+    public EnemyState currState = EnemyState.Idle;
     public float range;
     public float speed;
     private bool chooseDir = false;
     private bool dead = false;
     private Vector3 randomDir;
     public Enemy callback;
+
+    // Detects if the enemy and room are in the same room
+    public bool notInRoom = false;
 
     private void Start()
     {
@@ -32,6 +37,10 @@ public class EnemyAi : Fighter
     {
         switch (currState)
         {
+            case (EnemyState.Idle):
+                Idle();
+                break;
+
             case (EnemyState.Wander):
 
                 Wander();
@@ -48,17 +57,25 @@ public class EnemyAi : Fighter
                 break;
         }
 
-        if (IsPlayerInRange(range) && currState != EnemyState.Die)
+        if (!notInRoom)
         {
 
-            currState = EnemyState.Follow;
+            if (IsPlayerInRange(range) && currState != EnemyState.Die)
+            {
 
+                currState = EnemyState.Follow;
+
+            }
+            else if (!IsPlayerInRange(range) && currState != EnemyState.Die)
+            {
+
+                currState = EnemyState.Wander;
+
+            }
         }
-        else if (!IsPlayerInRange(range) && currState != EnemyState.Die)
+        else
         {
-
-            currState = EnemyState.Wander;
-
+            currState = EnemyState.Idle;
         }
     }
 
@@ -103,6 +120,17 @@ public class EnemyAi : Fighter
     void Follow()
     {
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+
+        // Add push vector, if any
+        transform.position += pushDirection;
+
+        //Reduce push force every frame, based on recovery speed
+        pushDirection = Vector3.Lerp(pushDirection, Vector3.zero, pushRecoverySpeed);
+    }
+
+    void Idle()
+    {
+
     }
 
     public void Die()

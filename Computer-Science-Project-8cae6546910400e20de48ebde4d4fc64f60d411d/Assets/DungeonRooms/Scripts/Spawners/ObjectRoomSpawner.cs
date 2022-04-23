@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ObjectRoomSpawner : MonoBehaviour
 {
+    [System.Serializable]
     public struct RandomSpawner
     {
         public string name;
@@ -17,7 +18,15 @@ public class ObjectRoomSpawner : MonoBehaviour
 
     private void Start()
     {
-        grid = GetComponentInChildren<GridController>();
+        //grid = GetComponentInChildren<GridController>();
+    }
+
+    public void InitialiseObjectSpawning()
+    {
+        foreach (RandomSpawner rs in spawnerData)
+        {
+            spawnObject(rs);
+        }
     }
 
     void spawnObject(RandomSpawner data)
@@ -32,5 +41,4 @@ public class ObjectRoomSpawner : MonoBehaviour
             Debug.Log("Spawned Object");
         }
     }
-
 }

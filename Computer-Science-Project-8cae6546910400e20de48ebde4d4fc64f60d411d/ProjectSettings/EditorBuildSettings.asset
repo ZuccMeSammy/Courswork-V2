@@ -14,9 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/BasementMain.unity
     guid: d438128188aac7f48829ec7b432837d5
-  - enabled: 1
-    path: Assets/Scenes/LevelManager.unity
-    guid: 45fa61c90f4068747808ba2a38a342e9
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/BasementStart.unity
     guid: 9a8ddb4bb04d33d4a91dc9581573066c
@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/BasementBasic1.unity
+    guid: 469dc0da6a73ad24f9ddcb5a411b01dd
   m_configObjects: {}

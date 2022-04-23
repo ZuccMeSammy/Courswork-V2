@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47681e06b1c8dd642992b1350c51b0bf, type: 3}
-  m_Name: RandomItemSpawner
+  m_Name: ChaseEnemy
   m_EditorClassIdentifier: 
-  itemToSpawn: {fileID: 1284234312345048320, guid: e9d7e485f2b9df241b2e214028722c29, type: 3}
-  minSpawn: 0
-  maxSpawn: 0
+  itemToSpawn: {fileID: 2614935204822925912, guid: d5b1c3cb22027ed48972c6c0cc095b65, type: 3}
+  minSpawn: 1
+  maxSpawn: 6

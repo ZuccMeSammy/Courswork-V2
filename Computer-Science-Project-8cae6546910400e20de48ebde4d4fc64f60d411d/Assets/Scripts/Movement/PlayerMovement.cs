@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Fighter
 {
     //[SerializeField] private LayerMask dashLayerMask;
  
@@ -81,6 +81,12 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);  //Rb.MovePosition moves the rigid body to a new position and handles collision detection 
         //rb.position is the current position, Add the movement and times by the speed, The Time.fixedeltatime is the time elapsed since the function was last called creating a constant movement speed. 
+
+        // Add push vector, if any
+        transform.position += pushDirection;
+
+        //Reduce push force every frame, based on recovery speed
+        pushDirection = Vector3.Lerp(pushDirection, Vector3.zero, pushRecoverySpeed);
 
         if (dashClick == true)
         {

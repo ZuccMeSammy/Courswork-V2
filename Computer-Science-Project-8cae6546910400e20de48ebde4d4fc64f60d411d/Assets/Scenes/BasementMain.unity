@@ -152,6 +152,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d6a47ba4d37d4343ba9f828e838b2c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSprites: []
+  weaponSprites: []
+  weaponPrices: 
+  player: {fileID: 0}
+  money: 0
 --- !u!4 &98480551
 Transform:
   m_ObjectHideFlags: 0
@@ -678,6 +683,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4db5f7c6fa48c8f45b264a0417d77d70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitpoint: 0
+  maxHitpoint: 0
+  pushRecoverySpeed: 0.2
+  playerCamera: {fileID: 0}
+  levelManager: {fileID: 0}
+  enemy: {fileID: 0}
   moveSpeed: 5
   rb: {fileID: 1947693309}
   animator: {fileID: 1947693308}

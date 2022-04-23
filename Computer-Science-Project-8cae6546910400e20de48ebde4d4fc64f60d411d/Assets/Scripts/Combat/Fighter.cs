@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Fighter : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Fighter : MonoBehaviour
     public int hitpoint;
     public int maxHitpoint;
     public float pushRecoverySpeed = .2f;
+    public Camera playerCamera;
+    public LevelManager levelManager;
 
     // Immunity
     protected float immuneTime = 1.0f;
@@ -33,6 +36,16 @@ public class Fighter : MonoBehaviour
             {
                 hitpoint = 0;
                 Destroy(gameObject);
+
+                if (playerCamera == null)
+                {
+                    levelManager.DeathScreen();
+                }
+                else
+                {
+                    return;
+                }
+                
             }
         }
 

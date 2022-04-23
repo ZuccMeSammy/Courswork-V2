@@ -2,10 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class LevelManager : MonoBehaviour
 {
+    public static LevelManager instance;
     
+    // Loading Screen
     public GameObject loadingScreen;
     public Slider slider;
 
@@ -29,16 +32,37 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    private void Awake()
+    {
+        if (LevelManager.instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public void DeathScreen()
+    {
+        UIManager _ui = GetComponent<UIManager>();
+        if (_ui != null)
+        {
+            _ui.ToggleDeathPanel();
+        }
+    }
+
+
+
+
+
+
+
+
+
+
     /*public static LevelManager instance;
 
     [SerializeField] private GameObject loaderCanvas;

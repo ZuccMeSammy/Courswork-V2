@@ -147,4 +147,12 @@ public class Room : MonoBehaviour
         return new Vector3(X * Width, Y * Height);
         //finds a vector which is the centre of the room
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Player")
+        {
+            RoomController.instance.OnPlayerEnterRoom(this);
+        }
+    }
 }

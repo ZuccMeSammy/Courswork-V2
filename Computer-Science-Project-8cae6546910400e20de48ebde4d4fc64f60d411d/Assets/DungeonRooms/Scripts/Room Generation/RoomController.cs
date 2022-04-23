@@ -24,6 +24,8 @@ public class RoomController : MonoBehaviour
 
     RoomInfo currentLoadRoomData;
 
+    Room currRoom;
+
     Queue<RoomInfo> loadRooomQueue = new Queue<RoomInfo>();
     //FIFO used as loading the scenes sequentially is essential to avoiding spawning erros
 
@@ -33,12 +35,12 @@ public class RoomController : MonoBehaviour
     bool isLoadingRoom = false;
 
     bool spawnedBossRoom = false;
-    
+
     bool updatedRooms = false;
 
     public void Awake()//called when the script loads
     {
-      instance = this;         
+        instance = this;
     }
 
     public void Start()
@@ -59,24 +61,25 @@ public class RoomController : MonoBehaviour
 
     void UpdateRoomQueue()
     {
-        if(isLoadingRoom)
+        if (isLoadingRoom)
         {
             return;
             //stops anything from happening whilst a room is loading
         }
 
-        if(loadRooomQueue.Count == 0)
+        if (loadRooomQueue.Count == 0)
         {
-            if(!spawnedBossRoom)
+            if (!spawnedBossRoom)
             {
                 StartCoroutine(SpawnBossRoom());
             }
-            else if(spawnedBossRoom && !updatedRooms)
+            else if (spawnedBossRoom && !updatedRooms)
             {
-                foreach(Room room in loadedRooms)
+                foreach (Room room in loadedRooms)
                 {
                     room.RemovedUnconnectedDoors();
                 }
+                UpdateRooms();
                 updatedRooms = true;
             }
             return;
@@ -94,7 +97,7 @@ public class RoomController : MonoBehaviour
     {
         spawnedBossRoom = true;
         yield return new WaitForSeconds(0.5f);
-        if(loadRooomQueue.Count == 0)
+        if (loadRooomQueue.Count == 0)
         {
             Room bossRoom = loadedRooms[loadedRooms.Count - 1];
             Room tempRoom = new Room(bossRoom.X, bossRoom.Y);
@@ -107,11 +110,13 @@ public class RoomController : MonoBehaviour
 
     public void LoadRoom(string name, int x, int y) //Deals with loading scenes
     {
-        if(DoesRoomExist(x, y))
+        if (DoesRoomExist(x, y))
         {
             return;
             //checks to make sure a room exits before loading one stopping overlapping rooms
         }
+
+
 
         RoomInfo newRoomData = new RoomInfo();
         newRoomData.name = name;
@@ -123,7 +128,15 @@ public class RoomController : MonoBehaviour
         //Adds the newRoomData to the queue
     }
 
-    IEnumerator LoadRoomRoutine(RoomInfo info) 
+    public void OnPlayerEnterRoom(Room room)
+    {
+        CameraController.instance.currRoom = room;
+        currRoom = room;
+
+        UpdateRooms();
+    }
+
+    IEnumerator LoadRoomRoutine(RoomInfo info)
     //Stops the game lagging by loading scenes one at one time (a co-routine)
     {
         string roomname = currentWorldName + info.name;
@@ -132,7 +145,7 @@ public class RoomController : MonoBehaviour
         //activates the scene after all operations have finished 
         //.Additive allows scenes to overlap allowing all the rooms to be in the same scene
 
-        while(loadRoom.isDone == false)//satifies the co-routine
+        while (loadRoom.isDone == false)//satifies the co-routine
         {
             yield return null;
             //waits until loading is finished to return something
@@ -155,6 +168,11 @@ public class RoomController : MonoBehaviour
             isLoadingRoom = false;
             //the room has finished loading so isLoadingRoom = false
 
+            if (loadedRooms.Count == 0)
+            {
+                CameraController.instance.currRoom = room;
+            }
+
             loadedRooms.Add(room);
             //adds the room to the loadedRooms list
         }
@@ -164,10 +182,10 @@ public class RoomController : MonoBehaviour
             isLoadingRoom = false;
         }
     }
-    
+
     public bool DoesRoomExist(int x, int y)//checks if a room exists
     {
-        return loadedRooms.Find(item => item.X == x && item.Y == y) != null; 
+        return loadedRooms.Find(item => item.X == x && item.Y == y) != null;
         //returns true or false depending wether a room is found
     }
 
@@ -175,5 +193,48 @@ public class RoomController : MonoBehaviour
     {
         return loadedRooms.Find(item => item.X == x && item.Y == y);
         //returns true or false 
+    }
+
+    public string GetRandomRoomName()
+    {
+        string[] possibleRooms = new string[]
+        {
+            "Empty",
+            "Basic1",
+        };
+
+        return possibleRooms[Random.Range(0, possibleRooms.Length)];
+    }
+
+    private void UpdateRooms()
+    {
+        foreach (Room room in loadedRooms)
+        {
+            if (currRoom != room)
+            {
+                EnemyAi[] enemies = room.GetComponentsInChildren<EnemyAi>();
+                if (enemies != null)
+                {
+                    foreach (EnemyAi enemy in enemies)
+                    {
+                        enemy.notInRoom = true;
+                        Debug.Log("Not in Room");
+                    }
+                }
+            }
+            else
+            {
+                EnemyAi[] enemies = room.GetComponentsInChildren<EnemyAi>();
+                if (enemies != null)
+                {
+                    foreach (EnemyAi enemy in enemies)
+                    {
+                        enemy.notInRoom = false;
+                        Debug.Log("In Room");
+                    }
+
+                }
+            }
+        }
     }
 }
